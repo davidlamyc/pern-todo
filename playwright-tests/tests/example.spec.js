@@ -1,29 +1,21 @@
 // @ts-check
 const { test, expect } = require('@playwright/test');
+const { v4: uuidv4 } = require('uuid');
 
-test('my test', async ({ page }, testInfo) => {
+test('create todo', async ({ page }, testInfo) => {
   await page.goto('localhost:3000');
+
+  await expect(page).toHaveTitle(/React App/);
+
+  const uuid = uuidv4();
+
+  await page.getByRole('textbox').fill(uuid);
+  await page.getByText('Add').click();
+
+  await expect(page.getByRole('cell', { name: uuid })).toBeVisible({ timeout: 10000 });
+
+  // await page.waitForTimeout(3000);
 
   const screenshot = await page.screenshot();
   await testInfo.attach('screenshot', { body: screenshot, contentType: 'image/png' });
-
-  // Expect a title "to contain" a substring.
-  await expect(page).toHaveTitle(/Reacting App/);
 });
-
-// test('has title', async ({ page }) => {
-//   await page.goto('https://playwright.dev/');
-
-//   // Expect a title "to contain" a substring.
-//   await expect(page).toHaveTitle(/Playwright/);
-// });
-
-// test('get started link', async ({ page }) => {
-//   await page.goto('https://playwright.dev/');
-
-//   // Click the get started link.
-//   await page.getByRole('link', { name: 'Get started' }).click();
-
-//   // Expects the URL to contain intro.
-//   await expect(page).toHaveURL(/.*intro/);
-// });
