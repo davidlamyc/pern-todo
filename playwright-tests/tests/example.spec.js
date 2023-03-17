@@ -8,7 +8,7 @@ test('my test', async ({ page }, testInfo) => {
   await testInfo.attach('screenshot', { body: screenshot, contentType: 'image/png' });
 
   // Expect a title "to contain" a substring.
-  await expect(page).toHaveTitle(/React App/);
+  await expect(page).toHaveTitle(/Reacting App/);
 });
 
 // test('has title', async ({ page }) => {
